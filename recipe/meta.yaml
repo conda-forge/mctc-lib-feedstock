@@ -10,7 +10,7 @@ source:
   sha256: d35168eca59d7bc938799e89f193cfe5f52383769eb02493bec73a1ef59e409b
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   script:
     - set -ex
