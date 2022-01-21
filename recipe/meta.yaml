@@ -36,6 +36,7 @@ test:
   requires:
     - pkg-config
   commands:
+    - set PKG_CONFIG_PATH=%PREFIX%\lib\pkgconfig  # [win]
     - pkg-config {{ name }} --exact-version {{ version }}
     - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
 
