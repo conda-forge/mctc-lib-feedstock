@@ -10,20 +10,23 @@ source:
   sha256: ca728d129c4bb0a06ed37183e3a8e2659d5fbbec2278c3f6569fb638314129d1
 
 build:
-  number: 0
-  skip: true  # [win]
+  number: 1
   script:
-    - set -ex
-    - meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} --buildtype=release
+    - set -ex  # [unix]
+    - meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} --buildtype=release  # [unix]
+    - meson setup _build --prefix=%PREFIX% --libdir=lib --buildtype=release -Djson=disabled  # [win]
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
-    - rm $PREFIX/bin/mctc-convert
+    - rm $PREFIX/bin/mctc-convert  # [unix]
+    - rm %PREFIX%\bin\mctc-convert.exe  # [win]
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('fortran') }}
+    - {{ compiler('c') }}  # [unix]
+    - {{ compiler('fortran') }}  # [unix]
+    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('m2w64_fortran') }}  # [win]
     - meson
     - ninja
     - llvm-openmp  # [osx]
@@ -33,8 +36,9 @@ test:
   requires:
     - pkg-config
   commands:
+    - set PKG_CONFIG_PATH=%PREFIX%\lib\pkgconfig  # [win]
     - pkg-config {{ name }} --exact-version {{ version }}
-    - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT
+    - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
 
 about:
   home: https://github.com/grimme-lab/mctc-lib
