@@ -14,17 +14,19 @@ build:
   script:
     - set -ex  # [unix]
     - meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} --buildtype=release  # [unix]
-    - meson setup _build --prefix=%PREFIX% --libdir=lib --buildtype=release  # [win]
+    - meson setup _build --prefix=%PREFIX% --libdir=lib --buildtype=release -Djson=disabled # [win]
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
     - rm $PREFIX/bin/mctc-convert  # [unix]
-    - rm %PREFIX\bin\mctc-convert  # [win]
+    - rm %PREFIX\bin\mctc-convert.exe  # [win]
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('fortran') }}
+    - {{ compiler('c') }}  # [unix]
+    - {{ compiler('fortran') }}  # [unix]
+    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('m2w64_fortran') }}  # [win]
     - meson
     - ninja
     - llvm-openmp  # [osx]
