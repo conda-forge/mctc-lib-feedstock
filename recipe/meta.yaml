@@ -19,7 +19,7 @@ build:
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
     - rm $PREFIX/bin/mctc-convert  # [unix]
-    - rm %PREFIX\bin\mctc-convert.exe  # [win]
+    - rm %PREFIX%\bin\mctc-convert.exe  # [win]
 
 requirements:
   build:
