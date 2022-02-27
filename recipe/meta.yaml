@@ -1,5 +1,5 @@
 {% set name = "mctc-lib" %}
-{% set version = "0.2.4" %}
+{% set version = "0.2.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,12 @@ package:
 
 source:
   url: https://github.com/grimme-lab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: ca728d129c4bb0a06ed37183e3a8e2659d5fbbec2278c3f6569fb638314129d1
+  sha256: 57fe220ca091e37b2e09387190dc16e556f8d2bf1c1a4280c8951ef864972a76
+  patches:
+    - tmol.patch
 
 build:
-  number: 2
+  number: 0
   script:
     - set -ex  # [unix]
     - meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} --buildtype=release  # [unix]
@@ -51,9 +53,7 @@ about:
   summary: >-
     Modular computation tool chain library
   description: >-
-    Common tool chain to molecular structure data in various applications.
-    This library provides a unified way to perform operations on molecular
-    structure data, like reading and writing to common geometry file formats.
+    Common tool chain to molecular structure data in various applications. This library provides a unified way to perform operations on molecular structure data, like reading and writing to common geometry file formats.
   doc_url: https://grimme-lab.github.io/mctc-lib
 
 extra:
