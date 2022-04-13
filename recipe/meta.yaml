@@ -8,8 +8,6 @@ package:
 source:
   url: https://github.com/grimme-lab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
   sha256: a697516bae03573e9ee43b8b72160584b35cc902e8f35c6024260241b154ec47
-  patches:
-    - tmol.patch
 
 build:
   number: 0
