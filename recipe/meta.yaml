@@ -13,13 +13,16 @@ build:
   number: 0
   script:
     - set -ex  # [unix]
-    - meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} --buildtype=release  # [unix]
-    - meson setup _build --prefix=%PREFIX% --libdir=lib --buildtype=release -Djson=disabled  # [win]
+    - >
+       meson setup _build
+       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
+       --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
+       --buildtype=release
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
     - rm $PREFIX/bin/mctc-convert  # [unix]
-    - rm %PREFIX%\bin\mctc-convert.exe  # [win]
+    - rm %LIBRARY_PREFIX%\bin\mctc-convert.exe  # [win]
 
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
@@ -39,7 +42,6 @@ test:
   requires:
     - pkg-config
   commands:
-    - set PKG_CONFIG_PATH=%PREFIX%\lib\pkgconfig  # [win]
     - pkg-config {{ name }} --exact-version {{ version }}
     - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
 
