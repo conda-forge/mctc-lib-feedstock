@@ -14,7 +14,10 @@ build:
   script:
     - set -ex  # [unix]
     - >
-      meson setup _build ${MESON_ARGS__###conda-selector###__unix:---prefix=${PREFIX} --libdir=lib}   --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win] --buildtype=release
+       meson setup _build
+       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
+       --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
+       --buildtype=release
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
