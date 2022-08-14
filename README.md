@@ -85,6 +85,7 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-mctc--convert-green.svg)](https://anaconda.org/conda-forge/mctc-convert) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mctc-convert.svg)](https://anaconda.org/conda-forge/mctc-convert) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mctc-convert.svg)](https://anaconda.org/conda-forge/mctc-convert) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mctc-convert.svg)](https://anaconda.org/conda-forge/mctc-convert) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mctc--lib-green.svg)](https://anaconda.org/conda-forge/mctc-lib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mctc-lib.svg)](https://anaconda.org/conda-forge/mctc-lib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mctc-lib.svg)](https://anaconda.org/conda-forge/mctc-lib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mctc-lib.svg)](https://anaconda.org/conda-forge/mctc-lib) |
 
 Installing mctc-lib
@@ -97,41 +98,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `mctc-lib` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `mctc-convert, mctc-lib` can be installed with `conda`:
 
 ```
-conda install mctc-lib
-```
-
-or with `mamba`:
-
-```
-mamba install mctc-lib
-```
-
-It is possible to list all of the versions of `mctc-lib` available on your platform with `conda`:
-
-```
-conda search mctc-lib --channel conda-forge
+conda install mctc-convert mctc-lib
 ```
 
 or with `mamba`:
 
 ```
-mamba search mctc-lib --channel conda-forge
+mamba install mctc-convert mctc-lib
+```
+
+It is possible to list all of the versions of `mctc-convert` available on your platform with `conda`:
+
+```
+conda search mctc-convert --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search mctc-convert --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search mctc-lib --channel conda-forge
+mamba repoquery search mctc-convert --channel conda-forge
 
-# List packages depending on `mctc-lib`:
-mamba repoquery whoneeds mctc-lib --channel conda-forge
+# List packages depending on `mctc-convert`:
+mamba repoquery whoneeds mctc-convert --channel conda-forge
 
-# List dependencies of `mctc-lib`:
-mamba repoquery depends mctc-lib --channel conda-forge
+# List dependencies of `mctc-convert`:
+mamba repoquery depends mctc-convert --channel conda-forge
 ```
 
 

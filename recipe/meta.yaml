@@ -2,7 +2,7 @@
 {% set version = "0.3.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}-pkg
   version: {{ version }}
 
 source:
@@ -10,52 +10,76 @@ source:
   sha256: 03dc8ccba37413da70e55a07cef8e8de53bce33f5bb52c1f8db5fec326abe083
 
 build:
-  number: 0
-  script:
-    - set -ex  # [unix]
-    - >
-       meson setup _build
-       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
-       --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
-       --buildtype=release
-    - meson compile -C _build
-    - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
-    - meson install -C _build --no-rebuild
-    - rm $PREFIX/bin/mctc-convert  # [unix]
-    - rm %LIBRARY_PREFIX%\bin\mctc-convert.exe  # [win]
+  number: 1
 
-  run_exports:
-    - {{ pin_subpackage(name, max_pin='x.x') }}
+outputs:
+  - name: {{ name }}
+    script: build_lib.sh  # [unix]
+    script: build_lib.bat  # [win]
 
-requirements:
-  build:
-    - {{ compiler('c') }}  # [unix]
-    - {{ compiler('fortran') }}  # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
-    - {{ compiler('m2w64_fortran') }}  # [win]
-    - meson
-    - ninja
-    - llvm-openmp  # [osx]
-    - libgomp  # [linux]
+    build: 
+      run_exports:
+        - {{ pin_subpackage(name, max_pin='x.x') }}
 
-test:
-  requires:
-    - pkg-config
-  commands:
-    - pkg-config {{ name }} --exact-version {{ version }}
-    - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
+    requirements:
+      build:
+        - {{ compiler('c') }}  # [unix]
+        - {{ compiler('fortran') }}  # [unix]
+        - {{ compiler('m2w64_c') }}  # [win]
+        - {{ compiler('m2w64_fortran') }}  # [win]
+        - meson
+        - ninja
+        - llvm-openmp  # [osx]
+        - libgomp  # [linux]
+      host:
+        - json-fortran  # [unix]
+
+    test:
+      requires:
+        - pkg-config
+      commands:
+        - pkg-config {{ name }} --exact-version {{ version }}
+        - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
+        - if not exist %LIBRARY_PREFIX%\\bin\\{{ name }}.dll exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\\lib\\{{ name }}.lib exit 1  # [win]
+        - test ! -f $PREFIX/lib/lib{{ name }}.a  # [unix]
+        - if exist %LIBRARY_PREFIX%\\lib\\{{ name }}.lib.a exit 1  # [win]
+        - if exist %LIBRARY_PREFIX%\\lib\\{{ name }}.a exit 1  # [win]
+
+  - name: mctc-convert
+    script: build_app.sh  # [unix]
+    script: build_app.bat  # [win]
+
+    requirements:
+      build:
+        - {{ compiler('fortran') }}  # [unix]
+        - {{ compiler('m2w64_fortran') }}  # [win]
+        - pkg-config
+        - asciidoctor  # [unix]
+        - llvm-openmp  # [osx]
+        - libgomp  # [linux]
+      host:
+        - {{ name }} =={{ version }}
+      run:
+        - {{ name }} =={{ version }}
+
+    test:
+      commands:
+        - mctc-convert --version
 
 about:
   home: https://github.com/grimme-lab/mctc-lib
+  doc_url: https://grimme-lab.github.io/mctc-lib
   license: Apache-2.0
   license_file:
     - LICENSE
-  summary: >-
-    Modular computation tool chain library
+  summary: Modular computation tool chain library
   description: >-
-    Common tool chain to molecular structure data in various applications. This library provides a unified way to perform operations on molecular structure data, like reading and writing to common geometry file formats.
-  doc_url: https://grimme-lab.github.io/mctc-lib
+    Common tool chain to molecular structure data in various applications. This library 
+    provides a unified way to perform operations on molecular structure data, like reading
+    and writing to common geometry file formats.
 
 extra:
   recipe-maintainers:
     - awvwgk
+  feedstock-name: {{ name }}
