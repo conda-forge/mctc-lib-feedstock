@@ -1,5 +1,5 @@
 {% set name = "mctc-lib" %}
-{% set version = "0.3.1" %}
+{% set version = "0.3.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/grimme-lab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 03dc8ccba37413da70e55a07cef8e8de53bce33f5bb52c1f8db5fec326abe083
+  sha256: b18b06f80e6274b353dd091c12b3a83217033ce0bd80471b54cf486cc60c0251
 
 build:
   number: 0
@@ -17,7 +17,6 @@ build:
        meson setup _build
        ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
        --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
-       --buildtype=release
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
@@ -30,8 +29,10 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}  # [unix]
+    - {{ stdlib("c") }}    # [unix]
     - {{ compiler('fortran') }}  # [unix]
     - {{ compiler('m2w64_c') }}  # [win]
+    - {{ stdlib("m2w64_c") }}    # [win]
     - {{ compiler('m2w64_fortran') }}  # [win]
     - meson
     - ninja
