@@ -10,7 +10,7 @@ source:
   sha256: b18b06f80e6274b353dd091c12b3a83217033ce0bd80471b54cf486cc60c0251
 
 build:
-  number: 0
+  number: 1
   script:
     - set -ex  # [unix]
     - >
