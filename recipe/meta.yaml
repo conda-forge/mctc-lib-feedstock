@@ -13,6 +13,7 @@ build:
   number: 2
   script:
     - set -ex  # [unix]
+    - set AR=llvm-ar  # [win]
     - >
        meson setup _build
        ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
