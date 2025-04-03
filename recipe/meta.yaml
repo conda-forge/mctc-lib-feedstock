@@ -1,5 +1,5 @@
 {% set name = "mctc-lib" %}
-{% set version = "0.4.0" %}
+{% set version = "0.4.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,16 +7,14 @@ package:
 
 source:
   url: https://github.com/grimme-lab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: a3c2de289770d691534ff70556f5da4bfce4b184d89053b7a2c7ff2ca1c12b0a
+  sha256: e67b7c97ed4d53f0412ac9be4655c90bee720080089fe661298656f5a7bd4479
 
 build:
   number: 0
   script:
     - set -ex  # [unix]
     - >
-       meson setup _build
-       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
-       --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
+      meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix] --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
