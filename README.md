@@ -31,10 +31,17 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64</td>
+              <td>linux_64_fortran_abigcc</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=14526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mctc-lib-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mctc-lib-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_fortran_abigcc" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_64_fortran_abiifx</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=14526&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mctc-lib-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_fortran_abiifx" alt="variant">
                 </a>
               </td>
             </tr><tr>
@@ -66,10 +73,17 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>win_64</td>
+              <td>win_64_fortran_abiifx</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=14526&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mctc-lib-feedstock?branchName=main&jobName=win&configuration=win%20win_64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mctc-lib-feedstock?branchName=main&jobName=win&configuration=win%20win_64_fortran_abiifx" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>win_64_fortran_abimingw</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=14526&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/mctc-lib-feedstock?branchName=main&jobName=win&configuration=win%20win_64_fortran_abimingw" alt="variant">
                 </a>
               </td>
             </tr>

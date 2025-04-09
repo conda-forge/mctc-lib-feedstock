@@ -1,0 +1,4 @@
+fortran_abi:
+- gcc    # [unix]
+- mingw  # [win]
+- ifx    # [x86_64 and not osx]

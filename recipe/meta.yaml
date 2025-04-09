@@ -1,5 +1,6 @@
 {% set name = "mctc-lib" %}
 {% set version = "0.4.1" %}
+{% set fortran_abi = fortran_abi or "gcc" %}
 
 package:
   name: {{ name|lower }}
@@ -10,7 +11,7 @@ source:
   sha256: e67b7c97ed4d53f0412ac9be4655c90bee720080089fe661298656f5a7bd4479
 
 build:
-  number: 0
+  number: 1
   script:
     - set -ex  # [unix]
     - >
@@ -21,17 +22,21 @@ build:
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
 
+  string: {{ fortran_abi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+
   run_exports:
-    - {{ pin_subpackage(name, max_pin='x.x') }}
+    - {{ pin_subpackage(name, max_pin='x.x') }} {{ fortran_abi }}_*
 
 requirements:
   build:
     - {{ compiler('c') }}  # [unix]
     - {{ stdlib('c') }}    # [unix]
-    - {{ compiler('fortran') }}  # [unix]
     - {{ compiler('m2w64_c') }}  # [win]
     - {{ stdlib('m2w64_c') }}    # [win]
-    - {{ compiler('m2w64_fortran') }}  # [win]
+    - {{ compiler('fortran') }}        # [fortran_abi == "gcc" and unix]
+    - {{ compiler('m2w64_fortran') }}  # [fortran_abi == "gcc" and win]
+    - ifx_linux-64                     # [fortran_abi == "ifx" and linux and x86_64]
+    - ifx_win-64                       # [fortran_abi == "ifx" and win and x86_64]
     - meson
     - ninja
     - llvm-openmp  # [osx]
