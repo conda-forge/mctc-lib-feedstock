@@ -10,12 +10,12 @@ source:
   sha256: e67b7c97ed4d53f0412ac9be4655c90bee720080089fe661298656f5a7bd4479
 
 build:
-  number: 0
+  number: 1
   script:
     - set -ex  # [unix]
     - >
        meson setup _build
-       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
+       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} -Djson=disabled  # [unix]
        --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
