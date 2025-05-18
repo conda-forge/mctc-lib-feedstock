@@ -32,7 +32,7 @@ requirements:
     - {{ compiler('m2w64_c') }}  # [win]
     - {{ stdlib('m2w64_c') }}    # [win]
     - {{ compiler('m2w64_fortran') }}  # [win]
-    - meson
+    - meson !=1.8.0
     - ninja
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
