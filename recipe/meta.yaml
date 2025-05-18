@@ -14,7 +14,9 @@ build:
   script:
     - set -ex  # [unix]
     - >
-      meson setup _build ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib} -Djson=disabled  # [unix] --prefix=%LIBRARY_PREFIX% --libdir=lib -Djson=disabled  # [win]
+       meson setup _build -Djson=enabled
+       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
+       --prefix=%LIBRARY_PREFIX% --libdir=lib  # [win]
     - meson compile -C _build
     - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
     - meson install -C _build --no-rebuild
@@ -34,6 +36,9 @@ requirements:
     - ninja
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
+  host:
+    - jonquil
+    - toml-f
 
 test:
   requires:
