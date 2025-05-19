@@ -11,16 +11,6 @@ source:
 
 build:
   number: 0
-  script:
-    - set -ex  # [unix]
-    - >
-       meson setup _build -Djson=enabled
-       ${MESON_ARGS:---prefix=${PREFIX} --libdir=lib}  # [unix]
-       --prefix=%LIBRARY_PREFIX% --libdir=lib  # [win]
-    - meson compile -C _build
-    - meson test -C _build --no-rebuild --print-errorlogs  # [build_platform == target_platform]
-    - meson install -C _build --no-rebuild
-
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
 
