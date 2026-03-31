@@ -13,6 +13,7 @@ EOF
 fi
 
 meson setup _build \
+  -Ddefault_library=shared \
   ${MESON_ARGS}
 
 meson compile -C _build

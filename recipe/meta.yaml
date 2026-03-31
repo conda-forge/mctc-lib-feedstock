@@ -2,7 +2,7 @@
 {% set version = "0.5.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}-pkg
   version: {{ version }}
 
 source:
@@ -10,45 +10,77 @@ source:
   sha256: c0b3ed75546ca6382f18b5569ce3f80c916537aaf02b208662bce6eb53338350
 
 build:
-  number: 0
-  run_exports:
-    - {{ pin_subpackage(name, max_pin='x.x') }}
+  number: 1
 
-requirements:
-  build:
-    - {{ compiler('c') }}  # [unix]
-    - {{ stdlib('c') }}    # [unix]
-    - {{ compiler('fortran') }}  # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
-    - {{ stdlib('m2w64_c') }}    # [win]
-    - {{ compiler('m2w64_fortran') }}  # [win]
-    - meson !=1.8.0
-    - ninja
-    - llvm-openmp  # [osx]
-    - libgomp  # [linux]
-  host:
-    - jonquil
-    - toml-f
+outputs:
+  - name: {{ name }}
+    script: build_pkg.sh   # [unix]
+    script: build_pkg.bat  # [win]
+    build:
+      string: {{ module_abi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      run_exports:
+        - {{ pin_subpackage(name, max_pin='x.x') }}
 
-test:
-  requires:
-    - pkg-config
-  commands:
-    - pkg-config {{ name }} --exact-version {{ version }}
-    - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
-    - mctc-convert --help
+    requirements:
+      build:
+        - {{ stdlib('c') }}  # [unix]
+        - {{ stdlib('m2w64_c') }}  # [win]
+        - {{ compiler('c') }}  # [unix]
+        - {{ compiler('fortran') }}  # [unix]
+        - {{ compiler('m2w64_c') }}  # [win]
+        - {{ compiler('m2w64_fortran') }}  # [win]
+        - meson
+        - ninja
+        - pkg-config
+        - llvm-openmp  # [osx]
+      host:
+        - libgomp  # [linux]
+        - llvm-openmp  # [osx]
+        - jonquil-devel * {{ module_abi }}_*
+        - toml-f-devel * {{ module_abi }}_*
+      run:
+        - llvm-openmp  # [osx]
+
+    test:
+      requires:
+        - pkg-config
+      commands:
+        - pkg-config {{ name }} --exact-version {{ version }}
+        - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
+        - test ! -f $PREFIX/lib/lib{{ name }}.a  # [unix]
+        - mctc-convert --help
+
+  - name: {{ name }}-devel
+    build:
+      string: {{ module_abi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      run_exports:
+        - {{ pin_subpackage(name, max_pin='x.x') }} {{ module_abi }}_*
+
+    requirements:
+      run:
+        - {{ pin_subpackage(name, max_pin='x.x') }} {{ module_abi }}_*
+
+    test:
+      requires:
+        - pkg-config
+      commands:
+        - pkg-config {{ name }} --exact-version {{ version }}
+        - test -f $PREFIX/lib/lib{{ name }}$SHLIB_EXT  # [unix]
+        - test ! -f $PREFIX/lib/lib{{ name }}.a  # [unix]
+        - mctc-convert --help
 
 about:
   home: https://github.com/grimme-lab/mctc-lib
   license: Apache-2.0
-  license_file:
-    - LICENSE
-  summary: >-
-    Modular computation tool chain library
+  license_file: LICENSE
+  summary: Modular computation tool chain library
   description: >-
-    Common tool chain to molecular structure data in various applications. This library provides a unified way to perform operations on molecular structure data, like reading and writing to common geometry file formats.
+    Common tool chain to molecular structure data in various applications.
+    This library provides a unified way to perform operations on molecular
+    structure data, like reading and writing to common geometry file formats.
   doc_url: https://grimme-lab.github.io/mctc-lib
 
 extra:
   recipe-maintainers:
     - awvwgk
+  feedstock-name: {{ name }}

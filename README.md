@@ -86,6 +86,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mctc--lib-green.svg)](https://anaconda.org/conda-forge/mctc-lib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mctc-lib.svg)](https://anaconda.org/conda-forge/mctc-lib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mctc-lib.svg)](https://anaconda.org/conda-forge/mctc-lib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mctc-lib.svg)](https://anaconda.org/conda-forge/mctc-lib) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-mctc--lib--devel-green.svg)](https://anaconda.org/conda-forge/mctc-lib-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mctc-lib-devel.svg)](https://anaconda.org/conda-forge/mctc-lib-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mctc-lib-devel.svg)](https://anaconda.org/conda-forge/mctc-lib-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mctc-lib-devel.svg)](https://anaconda.org/conda-forge/mctc-lib-devel) |
 
 Installing mctc-lib
 ===================
@@ -97,16 +98,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `mctc-lib` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `mctc-lib, mctc-lib-devel` can be installed with `conda`:
 
 ```
-conda install mctc-lib
+conda install mctc-lib mctc-lib-devel
 ```
 
 or with `mamba`:
 
 ```
-mamba install mctc-lib
+mamba install mctc-lib mctc-lib-devel
 ```
 
 It is possible to list all of the versions of `mctc-lib` available on your platform with `conda`:
