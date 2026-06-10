@@ -1,9 +1,8 @@
 setlocal EnableExtensions EnableDelayedExpansion
 @echo on
 
-set "PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig;%BUILD_PREFIX%\Library\lib\pkgconfig"
-
-meson setup _build --prefix=%LIBRARY_PREFIX%
+if "%module_abi%"=="gfortran" (
+meson setup _build %MESON_ARGS% --prefix=%LIBRARY_PREFIX%
 if errorlevel 1 exit 1
 
 meson compile -C _build
@@ -14,3 +13,13 @@ if errorlevel 1 exit 1
 
 meson install -C _build --no-rebuild
 if errorlevel 1 exit 1
+) else (
+cmake -G Ninja -B _build %CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% -DWITH_OpenMP=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON
+if errorlevel 1 exit 1
+
+cmake --build _build
+if errorlevel 1 exit 1
+
+cmake --install _build
+if errorlevel 1 exit 1
+)
