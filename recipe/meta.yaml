@@ -1,5 +1,5 @@
 {% set name = "mctc-lib" %}
-{% set version = "0.5.2" %}
+{% set version = "0.6.0" %}
 
 package:
   name: {{ name }}-pkg
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/grimme-lab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 25b2a3d18343079e92449b9c8d73a23fa8dc0ede2faf5c94ad6cfa4676355133
+  sha256: b8a5530a9bc78df42b1b4d6f46c2e02992d8760096a4fd04ca2bfe6be066d5ca
 
 build:
   number: 0
